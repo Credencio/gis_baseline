@@ -1,106 +1,126 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="./resources/ol.css">
-        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
-        <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
-        <link rel="stylesheet" href="./resources/qgis2web.css">
-        <style>
-        html, body {
-            background-color: #ffffff;
-        }
-        .ol-control > * {
-            background-color: #71C55B!important;
-            color: #444444!important;
-            border-radius: 0px;
-        }
-        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
-            color: #444444!important;
-        }
-        .search-layer-input-search {
-            background-color: #f8f8f8!important;
-        }
-        .ol-control > *:focus, .ol-control >*:hover {
-            background-color: rgba(248, 248, 248, 0.7)!important;
-        } 
-        .ol-control {
-            background-color: rgba(255,255,255,.4) !important;
-            padding: 2px !important;
-        } 
-        </style>
-
-        <style>
-        html, body, #map {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
-        }
-        </style>
-        <title></title>
-    </head>
-    <body>
-		<h1 style="text-align:center; background:#71C55B; padding:10px; margin:0; font-family:sans-serif; font-size:30px;">
-			GIS DATA PORTAL FOR INHAMBANE PROVINCE
-		</h1>
-        <div id="map">
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
-            </div>
-        </div>
-        <script src="resources/qgis2web_expressions.js"></script>
-<script>
-  const intervalId = setInterval(() => {
-    // Painel interno da lista de camadas
-    const layerPanel = document.querySelector('.layer-switcher > div');
-
-    if (layerPanel && !document.querySelector('#titulo-camadas')) {
-      const titulo = document.createElement('div');
-      titulo.id = 'titulo-camadas';
-      titulo.innerHTML = '📚 <strong>Camadas Disponíveis</strong>';
-      titulo.style.backgroundColor = '#3C8DBC';
-      titulo.style.color = '#ffffff';
-      titulo.style.padding = '8px';
-      titulo.style.textAlign = 'center';
-      titulo.style.fontSize = '14px';
-      titulo.style.borderBottom = '1px solid #2e6da4';
-      titulo.style.fontFamily = 'sans-serif';
-
-      // Adiciona o título antes da primeira camada
-      layerPanel.insertBefore(titulo, layerPanel.firstChild);
-
-      clearInterval(intervalId); // Para a verificação
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="stylesheet" href="./resources/ol.css" />
+  <link rel="stylesheet" href="resources/fontawesome-all.min.css" />
+  <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./resources/ol-layerswitcher.css" />
+  <link rel="stylesheet" href="./resources/qgis2web.css" />
+  <style>
+    html,
+    body {
+      background-color: #ffffff;
     }
-  }, 500);
-</script>
+    .ol-control > * {
+      background-color: #71C55B !important;
+      color: #444444 !important;
+      border-radius: 0px;
+    }
+    .ol-attribution a,
+    .gcd-gl-input::placeholder,
+    .search-layer-input-search::placeholder {
+      color: #444444 !important;
+    }
+    .search-layer-input-search {
+      background-color: #f8f8f8 !important;
+    }
+    .ol-control > *:focus,
+    .ol-control > *:hover {
+      background-color: rgba(248, 248, 248, 0.7) !important;
+    }
+    .ol-control {
+      background-color: rgba(255, 255, 255, 0.4) !important;
+      padding: 2px !important;
+    }
 
+    /* Estilo para o título do layer switcher */
+    .layer-switcher-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 5px;
+      background-color: #3C8DBC;
+      color: white;
+      border-bottom: 1px solid #2e6da4;
+      font-family: sans-serif;
+      font-size: 14px;
+    }
+  </style>
 
+  <style>
+    html,
+    body,
+    #map {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <title></title>
+</head>
+<body>
+  <h1
+    style="
+      text-align: center;
+      background: #71c55b;
+      padding: 10px;
+      margin: 0;
+      font-family: sans-serif;
+      font-size: 30px;
+    "
+  >
+    GIS DATA PORTAL FOR INHAMBANE PROVINCE
+  </h1>
+  <div id="map">
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div>
+  </div>
+  <script src="resources/qgis2web_expressions.js"></script>
 
-<script src="resources/proj4.js"></script>
-        <script>proj4.defs('','+proj=laea +lat_0=5 +lon_0=20 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');</script>
-        <script src="./resources/functions.js"></script>
-        <script src="./resources/ol.js"></script>
-        <script src="./resources/ol-layerswitcher.js"></script>
-        <script src="resources/photon-geocoder-autocomplete.min.js"></script>
-        <script src="layers/Inhambane_1.js"></script><script src="layers/distritos_2.js"></script><script src="layers/solos_3.js"></script><script src="layers/Estradas_4.js"></script><script src="layers/Rios_5.js"></script>
-        <script src="styles/Inhambane_1_style.js"></script><script src="styles/distritos_2_style.js"></script><script src="styles/solos_3_style.js"></script><script src="styles/Estradas_4_style.js"></script><script src="styles/Rios_5_style.js"></script>
-        <script src="./layers/layers.js" type="text/javascript"></script> 
-        <script src="./resources/Autolinker.min.js"></script>
-        <script src="./resources/qgis2web.js"></script>
-    </body>
+  <script src="resources/proj4.js"></script>
+  <script>
+    proj4.defs(
+      "",
+      "+proj=laea +lat_0=5 +lon_0=20 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs"
+    );
+  </script>
+  <script src="./resources/functions.js"></script>
+  <script src="./resources/ol.js"></script>
+  <script src="./resources/ol-layerswitcher.js"></script>
+  <script src="resources/photon-geocoder-autocomplete.min.js"></script>
+  <script src="layers/Inhambane_1.js"></script
+  ><script src="layers/distritos_2.js"></script
+  ><script src="layers/solos_3.js"></script
+  ><script src="layers/Estradas_4.js"></script
+  ><script src="layers/Rios_5.js"></script>
+  <script src="styles/Inhambane_1_style.js"></script
+  ><script src="styles/distritos_2_style.js"></script
+  ><script src="styles/solos_3_style.js"></script
+  ><script src="styles/Estradas_4_style.js"></script
+  ><script src="styles/Rios_5_style.js"></script>
+  <script src="./layers/layers.js" type="text/javascript"></script>
+  <script src="./resources/Autolinker.min.js"></script>
+  <script src="./resources/qgis2web.js"></script>
+
+  <script>
+    // Aguarda a renderização do layer switcher para inserir o título
+    setTimeout(function () {
+      // .layer-switcher é o container do layer switcher
+      const switcher = document.querySelector(".layer-switcher");
+      if (switcher && !document.querySelector(".layer-switcher-title")) {
+        const title = document.createElement("div");
+        title.className = "layer-switcher-title";
+        title.innerText = "Lista de Camadas";
+        switcher.prepend(title);
+      }
+    }, 500);
+  </script>
+</body>
 </html>
-
-
-
-
-
-
-
-
