@@ -58,11 +58,10 @@
         <script src="resources/qgis2web_expressions.js"></script>
 <script>
   const intervalId = setInterval(() => {
-    // Tenta encontrar o painel de camadas do qgis2web
-    const panel = document.querySelector('.ol-control.ol-layerswitcher');
+    // Painel interno da lista de camadas
+    const layerPanel = document.querySelector('.layer-switcher > div');
 
-    // Se o painel for encontrado e o título ainda não existir
-    if (panel && !document.querySelector('#titulo-camadas')) {
+    if (layerPanel && !document.querySelector('#titulo-camadas')) {
       const titulo = document.createElement('div');
       titulo.id = 'titulo-camadas';
       titulo.innerHTML = '📚 <strong>Camadas Disponíveis</strong>';
@@ -72,15 +71,16 @@
       titulo.style.textAlign = 'center';
       titulo.style.fontSize = '14px';
       titulo.style.borderBottom = '1px solid #2e6da4';
+      titulo.style.fontFamily = 'sans-serif';
 
-      // Insere o título antes do conteúdo existente
-      panel.insertBefore(titulo, panel.firstChild);
+      // Adiciona o título antes da primeira camada
+      layerPanel.insertBefore(titulo, layerPanel.firstChild);
 
-      // Para o loop
-      clearInterval(intervalId);
+      clearInterval(intervalId); // Para a verificação
     }
   }, 500);
 </script>
+
 
 
 <script src="resources/proj4.js"></script>
@@ -96,6 +96,7 @@
         <script src="./resources/qgis2web.js"></script>
     </body>
 </html>
+
 
 
 
